@@ -5,7 +5,6 @@ const User = require('../models/User');
 const LogAuth = require('../models/LogAuth');
 const router = express.Router();
 
-// Register
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
 
@@ -22,7 +21,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Login
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
@@ -46,13 +44,11 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Logout
 router.post('/logout', async (req, res) => {
     try {
         const token = req.header('x-auth-token');
         if (!token) return res.status(400).json({ msg: 'No token, authorization denied' });
 
-        // Decode token to get user ID
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const log = new LogAuth({ userId: decoded.userId, action: 'logout' });
         await log.save();
