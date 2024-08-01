@@ -34,7 +34,6 @@ router.post('/login', async (req, res) => {
         const payload = { userId: user.id };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        // Log the login action
         const log = new LogAuth({ userId: user.id, action: 'login' });
         await log.save();
 
