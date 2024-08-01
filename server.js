@@ -12,7 +12,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
- Mongoose.connect('mongodb://localhost:27017/mern')
+// Setting untuk conect MongoDb
+ Mongoose.connect('mongodb://localhost:27017/mern_dimas')
     .then(() => console.log('DB Connected'))
     .catch((err) => {
         console.log('DBERROR', err)
