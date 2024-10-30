@@ -1,10 +1,10 @@
-const express = require('express');
+import express, { Request, Response } from 'express';
+import nodemailer from 'nodemailer';
+import Email from '../models/Email';
+
 const router = express.Router();
-const nodemailer = require('nodemailer');
-const Email = require('../models/Email');
 
-
-router.post('/emails', async (req, res) => {
+router.post('/emails', async (req: Request, res: Response) => {
     const { email, date, description } = req.body;
 
     try {
@@ -39,12 +39,11 @@ router.post('/emails', async (req, res) => {
 
     } catch (err) {
         console.error('Server error:', err);
-        res.status(500).json({ msg: 'Server error', error: err.message });
+        res.status(500).json({ msg: 'Server error', error: (err as Error).message });
     }
 });
 
-
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
     const { email, date, description } = req.body;
     try {
         const newEmail = new Email({ email, date, description });
@@ -55,7 +54,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
     try {
         const emails = await Email.find();
         res.json(emails);
@@ -64,7 +63,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req: Request, res: Response) => {
     const { email, date, description } = req.body;
     try {
         const updatedEmail = await Email.findByIdAndUpdate(req.params.id, { email, date, description }, { new: true });
@@ -74,7 +73,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req: Request, res: Response) => {
     try {
         await Email.findByIdAndDelete(req.params.id);
         res.json({ message: 'Email deleted' });
@@ -83,4 +82,4 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
